@@ -20,10 +20,25 @@ steps:
   entrypoint: pip
   args: ["install", "-r", "requirements.txt"]
 
-# Copy files to GCP VM (assuming SSH key authentication)
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'scp', '--recurse', '--quiet', '--zone', 'us-west1-c', 'app/', 'save-sone-server@34.82.118.223:~/app']
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/dauntless-glow-412512/Auto-Update-Webpage:dfeb204a35ea466162b0874122355bc96efa1c13', '.']
 
-# SSH into GCP VM and deploy application
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', '--zone', 'us-west1-c', 'save-sone-server@34.82.118.223', '--command', 'cd ~/app && ./deploy.sh']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/dauntless-glow-412512/Auto-Update-Webpage:dfeb204a35ea466162b0874122355bc96efa1c13']
+
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - 'run'
+  - 'deploy'
+  - 'Auto-Update-Webpage'
+  - '--image'
+  - 'gcr.io/dauntless-glow-412512/Auto-Update-Webpage:dfeb204a35ea466162b0874122355bc96efa1c13'
+  - '--region'
+  - 'global'
+
+images:
+- 'gcr.io/dauntless-glow-412512/Auto-Update-Webpage:dfeb204a35ea466162b0874122355bc96efa1c13'
