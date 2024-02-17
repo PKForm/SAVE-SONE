@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Change directory to Django project root
+cd ~/app  # Assuming the Django project is in the 'app' directory in the home directory
+
 # Activate virtual environment (if applicable)
 # source /path/to/venv/bin/activate
 
