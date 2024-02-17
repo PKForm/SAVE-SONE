@@ -15,17 +15,9 @@ steps:
   args: ['checkout', 'dfeb204a35ea466162b0874122355bc96efa1c13']
   dir: 'app'
 
-# Install dependencies
-- name: 'gcr.io/cloud-builders/npm'
-  args: ['install']
-
-# Run unit tests (replace with your test command)
-- name: 'gcr.io/cloud-builders/npm'
-  args: ['test']
-
-# Build the application
-- name: 'gcr.io/cloud-builders/npm'
-  args: ['run', 'build']
+# Install Python dependencies
+- name: 'gcr.io/cloud-builders/python'
+  args: ['pip', 'install', '-r', 'requirements.txt']
 
 # Copy files to GCP VM (assuming SSH key authentication)
 - name: 'gcr.io/cloud-builders/gcloud'
