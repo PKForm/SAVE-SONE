@@ -1,6 +1,6 @@
 steps:
 # Clean up the contents of the 'app' directory
-- name: 'gcr.io/cloud-builders/bash'
+- name: 'ubuntu'
   entrypoint: 'bash'
   args:
     - '-c'
