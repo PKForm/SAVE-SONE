@@ -10,13 +10,13 @@ steps:
 # Check out the code from the Git repository
 - id: 'GitCheckout'
   name: 'gcr.io/cloud-builders/git'
-  args: ['clone', '--single-branch', '--branch', 'main', 'https://github.com/PKForm/SAVE-SONE.git', 'app']
+  args: ['clone', '--single-branch', '--branch', 'main', 'https://github.com/PKForm/SAVE-SONE.git', '~/app']
 
 # Change directory to the cloned repository
 - id: 'GitToCloned'
   name: 'gcr.io/cloud-builders/git'
   args: ['checkout', 'dfeb204a35ea466162b0874122355bc96efa1c13']
-  dir: 'app'
+  dir: '~/app'
 
 # Install Python dependencies
 - id: 'InstallDependencies'
