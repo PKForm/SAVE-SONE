@@ -35,4 +35,4 @@ steps:
   args: ['compute', 'ssh', '--zone', 'us-west1-c', 'save-sone-server@34.82.118.223', '--command', 'cd ~/app && ./deploy.sh']
 
 options:
-  logging: CLOUD_LOGGING_ONLY
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
