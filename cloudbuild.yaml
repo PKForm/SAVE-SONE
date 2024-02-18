@@ -10,11 +10,7 @@ steps:
 # SSH into GCP VM to clear whole web before update
 - id: 'ClearWebDirectory'
   name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      gcloud compute ssh --project dauntless-glow-412512 --zone us-west1-c g6451500315@save-sone-server --command 'rm -rf ~/SAVE-SONE'
+  args: ['compute', 'ssh', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', 'g6451500315@save-sone-server', '--command', 'rm -rf ~/SAVE-SONE']
 
 # Check out the code from the Git repository
 - id: 'GitCheckout'
@@ -36,7 +32,7 @@ steps:
 # Copy files to GCP VM (assuming SSH key authentication)
 - id: 'CopyFilesToVM'
   name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'scp', '--recurse', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', '~/SAVE-SONE', 'g6451500315@save-sone-server:~/SAVE-SONE']
+  args: ['compute', 'scp', '--recurse', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', 'SAVE-SONE', 'g6451500315@save-sone-server:~/SAVE-SONE']
 
 # SSH into GCP VM and deploy application
 - id: 'SSHIntoVMAndDeploy'
