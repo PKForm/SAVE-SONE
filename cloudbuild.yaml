@@ -32,7 +32,7 @@ steps:
 # SSH into GCP VM and deploy application
 - id: 'SSHIntoVMAndDeploy'
   name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', '--zone', 'us-west1-c', 'g6451500315@save-sone-server', '--command', 'cd ~/app && ./deploy.sh']
+  args: ['compute', 'ssh', '--zone', 'us-west1-c', 'g6451500315@save-sone-server:~/app', '--command', 'cd ~/app && ./deploy.sh']
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
