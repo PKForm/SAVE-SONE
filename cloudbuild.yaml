@@ -5,18 +5,18 @@ steps:
   entrypoint: 'bash'
   args:
     - '-c'
-    - 'rm -rf ~/app/*'
+    - 'rm -rf SAVE-SONE/*'
 
 # Check out the code from the Git repository
 - id: 'GitCheckout'
   name: 'gcr.io/cloud-builders/git'
-  args: ['clone', '--single-branch', '--branch', 'main', 'https://github.com/PKForm/SAVE-SONE.git', '~/app']
+  args: ['clone', '--single-branch', '--branch', 'main', 'https://github.com/PKForm/SAVE-SONE.git', 'SAVE-SONE']
 
 # Change directory to the cloned repository
 - id: 'GitToCloned'
   name: 'gcr.io/cloud-builders/git'
   args: ['checkout', 'dfeb204a35ea466162b0874122355bc96efa1c13']
-  dir: '~/app'
+  dir: 'SAVE-SONE'
 
 # Install Python dependencies
 - id: 'InstallDependencies'
@@ -27,12 +27,12 @@ steps:
 # Copy files to GCP VM (assuming SSH key authentication)
 - id: 'CopyFilesToVM'
   name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'scp', '--recurse', '--quiet', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', '~/app', 'g6451500315@save-sone-server:~/app']
+  args: ['compute', 'scp', '--recurse', '--quiet', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', 'SAVE-SONE', 'g6451500315@save-sone-server:SAVE-SONE']
 
 # SSH into GCP VM and deploy application
 - id: 'SSHIntoVMAndDeploy'
   name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', 'g6451500315@save-sone-server', '--command', 'cd ~/app && ./deploy.sh']
+  args: ['compute', 'ssh', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', 'g6451500315@save-sone-server', '--command', 'cd SAVE-SONE && ./deploy.sh']
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
