@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Change directory to Django project root
+cd ~/SAVE-SONE/
+
 # Activate virtual environment (if applicable)
 # source /path/to/venv/bin/activate
 
