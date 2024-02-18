@@ -19,6 +19,7 @@ steps:
 
 # SSH into GCP VM and install Python dependencies
 - id: 'InstallDependencies'
+  name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   args:
     - '-c'
