@@ -36,14 +36,14 @@ steps:
     - |
       gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt clean -y && sudo apt autoclean -y'
 
-# SSH into GCP VM and deploy application
-- id: 'CopyFilesToVM'
+# SSH into GCP VM and start Flask application
+- id: 'StartFlaskApplication'
   name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   args:
     - '-c'
     - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'chmod +x ~/SAVE-SONE/deploy.sh && ~/SAVE-SONE/deploy.sh'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/SAVE-SONE/app && python3 -m venv myenv && source myenv/bin/activate && python3 __init__.py && deactivate'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
