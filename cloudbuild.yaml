@@ -25,7 +25,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/SAVE-SONE && sudo apt install -y pipx && pipx ensurepath && pipx install cookiecutter && pipx install -f -r requirements.txt && pipx upgrade-all'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/SAVE-SONE && sudo apt install -y pipx && pipx ensurepath && pipx install cookiecutter && pipx run cookiecutter install requirements.txt && pipx upgrade-all'
 
 # SSH into GCP VM and update everything
 - id: 'UpdateEverything'
