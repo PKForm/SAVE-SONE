@@ -1,4 +1,13 @@
 steps:
+# SSH into GCP VM and update everything
+- id: 'UpdateEverything'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt clean -y && sudo apt autoclean -y'
+
 # SSH into GCP VM and clear whole web before update
 - id: 'ClearWebDirectory'
   name: 'gcr.io/cloud-builders/gcloud'
@@ -24,7 +33,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'pip install -r ~/SAVE-SONE/requirements.txt'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'alias pip=pip3 && pip install -r ~/SAVE-SONE/requirements.txt'
 
 # SSH into GCP VM and deploy application
 - id: 'CopyFilesToVM'
