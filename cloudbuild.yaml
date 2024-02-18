@@ -1,43 +1,38 @@
 steps:
-# Clean up the contents of the web directory
-- id: 'Cleanup'
-  name: 'ubuntu'
+# SSH into GCP VM and clear whole web before update
+- id: 'ClearWebDirectory'
+  name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   args:
     - '-c'
-    - 'rm -rf SAVE-SONE'
+    - |
+      gcloud compute ssh --recurse --zone us-west1-c --project dauntless-glow-412512 SAVE-SONE/* g6451500315@save-sone-server --command 'rm -rf ~/SAVE-SONE'
 
-# SSH into GCP VM to clear whole web before update
-- id: 'ClearWebDirectory'
-  name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', 'g6451500315@save-sone-server', '--command', 'rm -rf ~/SAVE-SONE']
-
-# Check out the code from the Git repository
+# SSH into GCP VM and get code from the Git repository
 - id: 'GitCheckout'
-  name: 'gcr.io/cloud-builders/git'
-  args: ['clone', '--single-branch', '--branch', 'main', 'https://github.com/PKForm/SAVE-SONE.git', 'SAVE-SONE']
-
-# Change directory to the cloned repository
-- id: 'GitToCloned'
-  name: 'gcr.io/cloud-builders/git'
-  args: ['checkout', 'dfeb204a35ea466162b0874122355bc96efa1c13']
-  dir: 'SAVE-SONE'
-
-# Install Python dependencies
-- id: 'InstallDependencies'
-  name: python
-  entrypoint: pip
-  args: ['install', '-r', 'requirements.txt']
-
-# Copy files to GCP VM (assuming SSH key authentication)
-- id: 'CopyFilesToVM'
   name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'scp', '--recurse', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', 'SAVE-SONE/*', 'g6451500315@save-sone-server:~/SAVE-SONE']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud compute ssh --recurse --zone us-west1-c --project dauntless-glow-412512 SAVE-SONE/* g6451500315@save-sone-server --command 'cd ~/ && git clone --single-branch --branch main https://github.com/PKForm/SAVE-SONE.git SAVE-SONE'
+
+# SSH into GCP VM and install Python dependencies
+- id: 'InstallDependencies'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud compute ssh --recurse --zone us-west1-c --project dauntless-glow-412512 SAVE-SONE/* g6451500315@save-sone-server --command 'pip install -r ~/SAVE-SONE/requirements.txt'
 
 # SSH into GCP VM and deploy application
-- id: 'SSHIntoVMAndDeploy'
+- id: 'CopyFilesToVM'
   name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', 'g6451500315@save-sone-server', '--command', 'cd ~/SAVE-SONE && ./deploy.sh']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud compute ssh --recurse --zone us-west1-c --project dauntless-glow-412512 SAVE-SONE/* g6451500315@save-sone-server --command ~/SAVE-SONE/deploy.sh
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
