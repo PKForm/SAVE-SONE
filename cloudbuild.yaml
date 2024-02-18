@@ -36,7 +36,11 @@ steps:
 # Copy files to GCP VM (assuming SSH key authentication)
 - id: 'CopyFilesToVM'
   name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'scp', '--recurse', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', 'SAVE-SONE/*', 'g6451500315@save-sone-server:~/SAVE-SONE']
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      gcloud compute scp --recurse --zone us-west1-c --project dauntless-glow-412512 SAVE-SONE/* g6451500315@save-sone-server:~/SAVE-SONE/
 
 # SSH into GCP VM and deploy application
 - id: 'SSHIntoVMAndDeploy'
