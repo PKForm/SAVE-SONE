@@ -33,7 +33,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'alias python=python3 && sudo apt-get install python3-pip && alias pip=pip3 && pip install -r ~/SAVE-SONE/requirements.txt'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'alias python=python3 && sudo apt-get install -y python3-pip && alias pip=pip3 && pip install -r ~/SAVE-SONE/requirements.txt'
 
 # SSH into GCP VM and deploy application
 - id: 'CopyFilesToVM'
