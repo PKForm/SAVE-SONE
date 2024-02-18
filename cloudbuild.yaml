@@ -33,7 +33,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'pip install -r ~/SAVE-SONE/requirements.txt'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command cd ~/SAVE-SONE && pip install -r requirements.txt'
 
 # SSH into GCP VM and deploy application
 - id: 'CopyFilesToVM'
@@ -42,7 +42,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command '~/SAVE-SONE/deploy.sh'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/SAVE-SONE && ./deploy.sh'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
