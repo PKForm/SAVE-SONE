@@ -1,11 +1,11 @@
 steps:
-# Clean up the contents of the 'app' directory
+# Clean up the contents of the web directory
 - id: 'Cleanup'
   name: 'ubuntu'
   entrypoint: 'bash'
   args:
     - '-c'
-    - 'rm -rf SAVE-SONE/*'
+    - 'rm -rf ~/SAVE-SONE'
 
 # SSH into GCP VM to clear whole web before update
 - id: 'ClearWebDirectory'
@@ -14,18 +14,20 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --project dauntless-glow-412512 --zone us-west1-c g6451500315@save-sone-server --command 'rm -rf SAVE-SONE/*'
+      gcloud compute ssh --project dauntless-glow-412512 --zone us-west1-c g6451500315@save-sone-server --command 'rm -rf ~/SAVE-SONE'
 
 # Check out the code from the Git repository
 - id: 'GitCheckout'
   name: 'gcr.io/cloud-builders/git'
-  args: ['clone', '--single-branch', '--branch', 'main', 'https://github.com/PKForm/SAVE-SONE.git', 'SAVE-SONE']
+  args: ['clone', '--single-branch', '--branch', 'main', 'https://github.com/PKForm/SAVE-SONE.git', '~/SAVE-SONE']
 
 # Change directory to the cloned repository
-- id: 'GitToCloned'
-  name: 'gcr.io/cloud-builders/git'
-  args: ['checkout', 'dfeb204a35ea466162b0874122355bc96efa1c13']
-  dir: 'SAVE-SONE'
+- id: 'ChangeToClonedRepoDirectory'
+  name: 'gcr.io/cloud-builders/bash'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - 'cd ~/SAVE-SONE'
 
 # Install Python dependencies
 - id: 'InstallDependencies'
@@ -33,10 +35,18 @@ steps:
   entrypoint: pip
   args: ['install', '-r', 'requirements.txt']
 
+# Change directory to the root repository
+- id: 'ChangeToRootDirectory'
+  name: 'gcr.io/cloud-builders/bash'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - 'cd ~/'
+
 # Copy files to GCP VM (assuming SSH key authentication)
 - id: 'CopyFilesToVM'
   name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'scp', '--recurse', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', 'SAVE-SONE/*', 'g6451500315@save-sone-server:SAVE-SONE']
+  args: ['compute', 'scp', '--recurse', '--zone', 'us-west1-c', --project, 'dauntless-glow-412512', '~/SAVE-SONE', 'g6451500315@save-sone-server:SAVE-SONE']
 
 # SSH into GCP VM and deploy application
 - id: 'SSHIntoVMAndDeploy'
