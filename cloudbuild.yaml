@@ -23,7 +23,7 @@ steps:
 
 # Change directory to the cloned repository
 - id: 'ChangeToClonedRepoDirectory'
-  name: 'gcr.io/cloud-builders/bash'
+  name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   args:
     - '-c'
@@ -37,7 +37,7 @@ steps:
 
 # Change directory to the root repository
 - id: 'ChangeToRootDirectory'
-  name: 'gcr.io/cloud-builders/bash'
+  name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   args:
     - '-c'
