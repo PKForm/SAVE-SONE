@@ -6,7 +6,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --recurse --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'rm -rf ~/SAVE-SONE'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'rm -rf ~/SAVE-SONE'
 
 # SSH into GCP VM and get code from the Git repository
 - id: 'GitCheckout'
@@ -15,7 +15,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --recurse --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/ && git clone --single-branch --branch main https://github.com/PKForm/SAVE-SONE.git SAVE-SONE'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/ && git clone --single-branch --branch main https://github.com/PKForm/SAVE-SONE.git SAVE-SONE'
 
 # SSH into GCP VM and install Python dependencies
 - id: 'InstallDependencies'
@@ -24,7 +24,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --recurse --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'pip install -r ~/SAVE-SONE/requirements.txt'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'pip install -r ~/SAVE-SONE/requirements.txt'
 
 # SSH into GCP VM and deploy application
 - id: 'CopyFilesToVM'
@@ -33,7 +33,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --recurse --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command ~/SAVE-SONE/deploy.sh
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command '~/SAVE-SONE/deploy.sh'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
