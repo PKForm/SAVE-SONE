@@ -22,12 +22,12 @@ steps:
 - id: 'InstallDependencies'
   name: python
   entrypoint: pip
-  args: ["install", "-r", "requirements.txt"]
+  args: ['install', '-r', 'requirements.txt']
 
 # Copy files to GCP VM (assuming SSH key authentication)
 - id: 'CopyFilesToVM'
   name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'scp', '--recurse', '--quiet', '--zone', 'us-west1-c', 'save-sone-server:~/app', '~/app']
+  args: ['compute', 'scp', '--recurse', '--quiet', '--zone', 'us-west1-c', 'g6451500315@save-sone-server:~/app', '~/app']
 
 # SSH into GCP VM and deploy application
 - id: 'SSHIntoVMAndDeploy'
