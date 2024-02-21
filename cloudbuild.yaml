@@ -1,21 +1,12 @@
 steps:
-# SSH into GCP VM and clear whole web before update
-- id: 'ClearWebDirectory'
-  name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'rm -rf ~/SAVE-SONE'
-
-# SSH into GCP VM and get code from the Git repository
+# SSH into GCP VM and update code from the Git repository
 - id: 'GitCheckout'
   name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   args:
     - '-c'
     - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/ && git clone --single-branch --branch main https://github.com/PKForm/SAVE-SONE.git SAVE-SONE'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/ && git pull'
 
 # SSH into GCP VM and install Python dependencies
 - id: 'InstallDependencies'
@@ -24,7 +15,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/SAVE-SONE && python3 -m venv myenv && source myenv/bin/activate && pip install -r requirements.txt && deactivate'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/SAVE-SONE && python3 -m venv myenv && source myenv/bin/activate && pip install -r requirements.txt'
 
 # SSH into GCP VM and update everything
 - id: 'UpdateEverything'
@@ -42,7 +33,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/SAVE-SONE && python3 -m venv myenv && source myenv/bin/activate && gunicorn -bind 0.0.0.0:5000 wsgi:app && deactivate'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/SAVE-SONE && gunicorn -bind 0.0.0.0:5000 wsgi:app'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
