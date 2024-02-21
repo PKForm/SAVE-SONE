@@ -6,7 +6,7 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/ && git pull'
+      gcloud compute ssh --zone us-west1-c --project dauntless-glow-412512 g6451500315@save-sone-server --command 'cd ~/SAVE-SONE && git pull'
 
 # SSH into GCP VM and install Python dependencies
 - id: 'InstallDependencies'
