@@ -7,7 +7,7 @@ app.secret_key = 'save-sone-project'
 def index():
     return redirect(url_for('login'))
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login')
 def login():
     return render_template('login.html')
 
@@ -21,7 +21,6 @@ def reset_password():
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
