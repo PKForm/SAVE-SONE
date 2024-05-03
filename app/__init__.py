@@ -6,15 +6,15 @@ app = Flask(__name__)
 def index():
     return redirect(url_for('login'))
 
-@app.route('/login')
+@app.route('/login/')
 def login():
     return render_template('login.html')
 
-@app.route('/sign_up')
+@app.route('/sign_up/')
 def signup():
     return render_template('sign_up.html')
 
-@app.route('/reset_password')
+@app.route('/reset_password/')
 def reset_password():
     return render_template('reset_password.html')
 
