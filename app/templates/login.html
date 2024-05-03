@@ -1,26 +1,38 @@
 <!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-        <link rel="stylesheet" href="./../static/css/loginstyles.css">
-    </head>
-    <body>
-        <div class="container">
-            <h2>Login</h2>
-            <form action="login" method="post">
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <input type="submit" value="Login">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static/css', filename='login.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <section class="login">
+        <div class="wrapper">
+            <form action="">
+                <h1>Login</h1>
+                <div class="input-box">
+                    <input type="text" placeholder="Username" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" placeholder="Password" required>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <div class="reset-pass">
+                    <a href="{{ url_for('reset_password') }}">Reset Password?</a>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <div class="register-link">
+                    <p>Don't have an account? <a href="{{ url_for('sign_up') }}">Sign Up</a></p>
+                </div>
             </form>
-            <div class="reset-password">
-                <a href="https://save-sone.com/reset-password">Forget Password?</a>
-            </div>
-            <div class="signup-link">
-                <p>Do not have an account? <a href="https://save-sone.com/signup">Sign Up</a></p>
-            </div>
         </div>
-    </body>
+    </section>
+</body>
+
 </html>
