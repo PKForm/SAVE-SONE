@@ -1,0 +1,22 @@
+<!-- demo.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/demo.css') }}">
+</head>
+<body>
+    <h1>Write a Post</h1>
+    <textarea id="comment-input" rows="5" placeholder="Type your comment here..."></textarea>
+    <span id="toxicity-score"></span>
+    <button id="post-button" disabled>Post Comment</button>
+    <div id="comment-section"></div>
+    <script src="{{ url_for('static', filename='js/demo.js') }}">
+    </script>
+    <script>
+        const apiKey = '{{ api_key }}';
+    </script>
+</body>
+</html>
